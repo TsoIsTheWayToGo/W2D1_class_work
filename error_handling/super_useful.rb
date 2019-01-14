@@ -1,8 +1,12 @@
 # PHASE 2
 def convert_to_int(str)
   Integer(str)
-end
+  # raise 
+  #  "Wrong Type of arguement"
+rescue StandardError
 
+end
+class CoffeeError < StandardError; end
 # PHASE 3
 FRUITS = ["apple", "banana", "orange"]
 
@@ -10,8 +14,18 @@ def reaction(maybe_fruit)
   if FRUITS.include? maybe_fruit
     puts "OMG, thanks so much for the #{maybe_fruit}!"
   else 
-    raise StandardError 
-  end 
+    raise CoffeeError 
+  end
+rescue CoffeeError
+  puts "Not a fruit you must feed coffee first" 
+  input = gets.chomp
+  
+  if input != "coffee"
+    retry
+
+  end
+  feed_me_a_fruit
+  
 end
 
 def feed_me_a_fruit
@@ -23,11 +37,20 @@ def feed_me_a_fruit
 end  
 
 # PHASE 4
+class BestFriendError < StandardError; end
 class BestFriend
   def initialize(name, yrs_known, fav_pastime)
     @name = name
     @yrs_known = yrs_known
     @fav_pastime = fav_pastime
+    if yrs_known < 5 
+      raise BestFriendError, 'friendship not mature enough.'
+    elsif fav_pastime.nil? 
+      raise BestFriendError, "Muse have favorite funtime"
+    end
+  rescue BestFriendError
+  ensure 
+    # BestFriend.new(name,6,"watching movies")
   end
 
   def talk_about_friendship
